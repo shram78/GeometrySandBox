@@ -2,7 +2,7 @@
 
 
 #include "BaseGeometryActor.h"
-#include "Engine/Engine.h" 
+//#include "Engine/Engine.h" 
 
 DEFINE_LOG_CATEGORY_STATIC(LogBaseGeometry, All, All)
 
@@ -19,8 +19,23 @@ void ABaseGeometryActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	printTypes();
-	printStringTypes();
+	FString Name = "Aleks Shram";
+	UE_LOG(LogBaseGeometry, Display, TEXT("Name: %s"), *Name);
+
+	int WeaponsNum = 3;
+	float Health = 34.3454543f;
+	bool IsDead = false;
+
+	FString WeaponsNumStr = "Weapons num: " + FString::FromInt(WeaponsNum);
+	FString HealthStr = "Health: " + FString::SanitizeFloat(Health);
+	FString IsDeadStr = "IsDead: " + FString(IsDead ? "True Player" : "False Player");
+
+	FString Stats = FString::Printf(TEXT("\n == All stats == \n %s,\n %s,\n %s"), *WeaponsNumStr, *HealthStr, *IsDeadStr);
+	UE_LOG(LogBaseGeometry, Display, TEXT("%s"), *Stats);
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, Name);
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, Stats, true, FVector2D(1.5f, 1.5f));
+
 
 }
 
@@ -44,24 +59,4 @@ void ABaseGeometryActor::printTypes()
 	UE_LOG(LogTemp, Display, TEXT("Health: %.2f"), Health);
 	UE_LOG(LogTemp, Display, TEXT("IsDead %d"), IsDead);
 	UE_LOG(LogTemp, Display, TEXT("HasWeapon %d"), static_cast<int>(HasWeapon));
-}
-
-void ABaseGeometryActor::printStringTypes()
-{
-	FString Name = "Aleks Shram";
-	UE_LOG(LogBaseGeometry, Display, TEXT("Name: %s"), *Name);
-
-	int WeaponsNum = 3;
-	float Health = 34.3454543f;
-	bool IsDead = false;
-
-	FString WeaponsNumStr = "Weapons num: " + FString::FromInt(WeaponsNum);
-	FString HealthStr = "Health: " + FString::SanitizeFloat(Health);
-	FString IsDeadStr = "IsDead: " + FString(IsDead ? "True Player" : "False Player");
-
-	FString Stats = FString::Printf(TEXT("\n == All stats == \n %s,\n %s,\n %s"), *WeaponsNumStr, *HealthStr, *IsDeadStr);
-	UE_LOG(LogBaseGeometry, Display, TEXT("%s"), *Stats);
-
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, Name);
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, Stats, true, FVector2D(1.5f, 1.5f));
 }
