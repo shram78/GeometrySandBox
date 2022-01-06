@@ -20,22 +20,6 @@ void ABaseGeometryActor::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Hello Unreal!"));
 	UE_LOG(LogTemp, Error, TEXT("Hello Unreal!"));
 
-	int WeaponsNum = 3;
-	int KillNum = 7;
-	float Health = 34.3454543f;
-	bool IsDead = false;
-	bool HasWeapon = true;
-
-	UE_LOG(LogTemp, Display, TEXT("Weap num: %d, kills num: %i"), WeaponsNum, KillNum);
-	UE_LOG(LogTemp, Display, TEXT("Health: %f"), Health);
-	UE_LOG(LogTemp, Display, TEXT("Health: %.2f"), Health);
-	UE_LOG(LogTemp, Display, TEXT("IsDead %d"), IsDead);
-	UE_LOG(LogTemp, Display, TEXT("HasWeapon %d"), static_cast<int>(HasWeapon));
-
-
-
-
-
 
 }
 
