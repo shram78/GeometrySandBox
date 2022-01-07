@@ -29,9 +29,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Move")
 		float Frequency = 2.0f;
 
-	UPROPERTY(EditAnywhere, Category = "Move")
-		float RotationSpeed = 5.0f;
-
 	UPROPERTY(EditAnywhere, Category = "Weapon")
 		int32 WeaponsNum = 3;
 
@@ -54,6 +51,6 @@ public:
 private:
 	//void printTypes();
 	//void printStringTypes();
-	//void printTransform();
+	void printTransform();
 	FVector InitialLocation;
 };
