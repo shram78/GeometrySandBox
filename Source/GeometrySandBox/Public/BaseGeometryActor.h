@@ -56,4 +56,5 @@ private:
 	//void printStringTypes();
 	//void printTransform();
 	FVector InitialLocation;
+	//Debag.log
 };
