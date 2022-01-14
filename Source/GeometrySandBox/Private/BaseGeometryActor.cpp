@@ -18,23 +18,38 @@ void ABaseGeometryActor::BeginPlay()
 
 	InitialLocation = GetActorLocation();
 
-	//printTypes();
-	//printStringTypes();
-	//printTransform();
+	//PrintTypes();
+	//PrintStringTypes();
+	//PrintTransform();
 }
 
 void ABaseGeometryActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	float time = GetWorld()->GetTimeSeconds();
-	FVector CurrentLocation = GetActorLocation();
-	CurrentLocation.Z = InitialLocation.Z + Amplitude * FMath::Sin(Frequency * time);
-
-	SetActorLocation(CurrentLocation);
+	HandleMovement();
 }
 
-//void ABaseGeometryActor::printTransform()
+void ABaseGeometryActor::HandleMovement()
+{
+	switch (GeometryData.MoveType)
+	{
+	case EMovementType::Sin:
+	{
+		FVector CurrentLocation = GetActorLocation();
+		float Time = GetWorld()->GetTimeSeconds();
+		CurrentLocation.Z = InitialLocation.Z + GeometryData.Amplitude * FMath::Sin(GeometryData.Frequency * Time);
+
+		SetActorLocation(CurrentLocation);
+	}
+	break;
+
+	case EMovementType::Static: break;
+	default: break;
+	}
+}
+
+//void ABaseGeometryActor::PrintTransform()
 //{
 //	FTransform Transform = GetActorTransform();
 //
@@ -50,7 +65,7 @@ void ABaseGeometryActor::Tick(float DeltaTime)
 //	UE_LOG(LogBaseGeometry, Error, TEXT("To Human Transform: %s"), *Transform.ToHumanReadableString());
 //}
 
-//void ABaseGeometryActor::printTypes()
+//void ABaseGeometryActor::PrintTypes()
 //{
 //	UE_LOG(LogBaseGeometry, Warning, TEXT("Actor name: %s"), *GetName());
 //	UE_LOG(LogBaseGeometry, Warning, TEXT("Weap num: %d, kills num: %i"), WeaponsNum, KillNum);
@@ -59,7 +74,7 @@ void ABaseGeometryActor::Tick(float DeltaTime)
 //	UE_LOG(LogBaseGeometry, Warning, TEXT("HasWeapon %d"), static_cast<int>(HasWeapon));
 //}
 
-//void ABaseGeometryActor::printStringTypes()
+//void ABaseGeometryActor::PrintStringTypes()
 //{
 //	FString Name = "Aleks Shram";
 //	UE_LOG(LogBaseGeometry, Display, TEXT("Name: %s"), *Name);
