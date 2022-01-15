@@ -1,5 +1,6 @@
 #include "BaseGeometryActor.h"
-#include "Engine/Engine.h" 
+#include "Engine/Engine.h"
+#include "Materials/MaterialInstanceDynamic.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogBaseGeometry, All, All)
 
@@ -21,6 +22,7 @@ void ABaseGeometryActor::BeginPlay()
 	//PrintTypes();
 	//PrintStringTypes();
 	//PrintTransform();
+	SetColor(GeometryData.Color);
 }
 
 void ABaseGeometryActor::Tick(float DeltaTime)
@@ -49,6 +51,15 @@ void ABaseGeometryActor::HandleMovement()
 	}
 }
 
+void ABaseGeometryActor::SetColor(const FLinearColor& Color)
+{
+	UMaterialInstanceDynamic* DynMaterial = BaseMesh->CreateAndSetMaterialInstanceDynamic(0);
+	if (DynMaterial)
+	{
+		DynMaterial->SetVectorParameterValue("Color", Color);
+	}
+}
+
 //void ABaseGeometryActor::PrintTransform()
 //{
 //	FTransform Transform = GetActorTransform();
@@ -58,7 +69,7 @@ void ABaseGeometryActor::HandleMovement()
 //	FVector Scale = Transform.GetScale3D();
 //
 //	UE_LOG(LogBaseGeometry, Warning, TEXT("Actor name: %s"), *GetName());
-//	UE_LOG(LogBaseGeometry, Warning, TEXT("Trannsform: %s"), *Transform.ToString());
+//	UE_LOG(LogBaseGeometry, Warning, TEXT("Transform: %s"), *Transform.ToString());
 //	UE_LOG(LogBaseGeometry, Warning, TEXT("Locations: %s"), *Location.ToString());
 //	UE_LOG(LogBaseGeometry, Warning, TEXT("Rotations: %s"), *Rotation.ToString());
 //	UE_LOG(LogBaseGeometry, Warning, TEXT("Scale: %s"), *Scale.ToString());
