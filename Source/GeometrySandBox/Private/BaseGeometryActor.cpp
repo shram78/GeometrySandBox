@@ -28,6 +28,12 @@ void ABaseGeometryActor::BeginPlay()
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ABaseGeometryActor::OnTimerFired, GeometryData.TimerRate, true);
 }
 
+void ABaseGeometryActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	UE_LOG(LogBaseGeometry, Error, TEXT("Actor is dead %s"), *GetName());
+	Super::EndPlay(EndPlayReason);
+}
+
 void ABaseGeometryActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -49,7 +55,6 @@ void ABaseGeometryActor::HandleMovement()
 
 			SetActorLocation(CurrentLocation);
 		}
-
 	}
 	break;
 
@@ -60,7 +65,7 @@ void ABaseGeometryActor::HandleMovement()
 
 void ABaseGeometryActor::SetColor(const FLinearColor& Color)
 {
-if (!BaseMesh) return;
+	if (!BaseMesh) return;
 
 	UMaterialInstanceDynamic* DynMaterial = BaseMesh->CreateAndSetMaterialInstanceDynamic(0);
 	if (DynMaterial)
@@ -76,11 +81,15 @@ void ABaseGeometryActor::OnTimerFired()
 		const FLinearColor NewColor = FLinearColor::MakeRandomColor();
 		UE_LOG(LogBaseGeometry, Display, TEXT("TimerCount: %i, Color Set UP : %s"), TimerCount, *NewColor.ToString());
 		SetColor(NewColor);
+
+		OnColorChanged.Broadcast(NewColor, GetName());
 	}
 	else
 	{
 		UE_LOG(LogBaseGeometry, Warning, TEXT("Timer gas been stopped!"));
 		GetWorldTimerManager().ClearTimer(TimerHandle);
+
+		OnTimerFinished.Broadcast(this);
 	}
 }
 
