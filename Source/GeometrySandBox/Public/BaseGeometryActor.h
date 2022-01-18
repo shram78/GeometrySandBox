@@ -45,6 +45,8 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* BaseMesh;
 
+	void SetGeometryData(const FGeometryData& Data){ GeometryData = Data;}
+
 protected:
 	virtual void BeginPlay() override;
 
