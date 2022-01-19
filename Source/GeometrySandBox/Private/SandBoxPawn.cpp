@@ -1,6 +1,8 @@
 
 #include "SandBoxPawn.h"
 #include "Components/InputComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Camera/CameraComponent.h"
 
 
 DEFINE_LOG_CATEGORY_STATIC(LogSandBoxPawn, All, All)
@@ -11,7 +13,15 @@ ASandBoxPawn::ASandBoxPawn()
 
 	SceneComponent = CreateDefaultSubobject<USceneComponent>("SceneComponent");
 	SetRootComponent(SceneComponent);
+
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshComponent");
+	StaticMeshComponent->SetupAttachment(GetRootComponent());
+
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
+	CameraComponent->SetupAttachment(GetRootComponent());
 }
+
+
 
 void ASandBoxPawn::BeginPlay()
 {
@@ -27,6 +37,7 @@ void ASandBoxPawn::Tick(float DeltaTime)
 	{
 		const FVector NewLocation = GetActorLocation() + Velocity * DeltaTime * VelocityVector;
 		SetActorLocation(NewLocation);
+		VelocityVector = FVector::ZeroVector;
 	}
 }
 
@@ -34,10 +45,11 @@ void ASandBoxPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &ASandBoxPawn::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &ASandBoxPawn::MoveRight);
-
-
+	if (PlayerInputComponent)
+	{
+		PlayerInputComponent->BindAxis("MoveForward", this, &ASandBoxPawn::MoveForward);
+		PlayerInputComponent->BindAxis("MoveRight", this, &ASandBoxPawn::MoveRight);
+	}
 }
 
 void ASandBoxPawn::MoveForward(float Amount)
@@ -52,3 +64,17 @@ void ASandBoxPawn::MoveRight(float Amount)
 	VelocityVector.Y = Amount;
 }
 
+void ASandBoxPawn::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!NewController) return;
+	UE_LOG(LogSandBoxPawn, Error, TEXT("%s possessed by %s"), *GetName(), *NewController->GetName());
+}
+
+void ASandBoxPawn::UnPossessed()
+{
+	Super::UnPossessed();
+
+	UE_LOG(LogSandBoxPawn, Warning, TEXT("%s unpossed"), *GetName());
+}
