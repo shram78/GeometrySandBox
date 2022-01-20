@@ -12,14 +12,14 @@ struct FGeometryPayload
 {
 	GENERATED_USTRUCT_BODY()
 
-		UPROPERTY(EditAnywhere)
-		TSubclassOf<ABaseGeometryActor> GeometryClass;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ABaseGeometryActor> GeometryClass;
 
 	UPROPERTY(EditAnywhere)
-		FGeometryData Data;
+	FGeometryData Data;
 
 	UPROPERTY(EditAnywhere)
-		FTransform InitialTransform;
+	FTransform InitialTransform;
 
 };
 
@@ -36,10 +36,10 @@ protected:
 
 	//создать объект BaseGeometry или его наследник, например блюпринт
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<ABaseGeometryActor> GeometryClass;
+	TSubclassOf<ABaseGeometryActor> GeometryClass;
 
 	UPROPERTY(EditAnywhere)
-		TArray<FGeometryPayload> GeometryPayloads;
+	TArray<FGeometryPayload> GeometryPayloads;
 
 public:
 	virtual void Tick(float DeltaTime) override;
